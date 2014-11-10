@@ -42,5 +42,32 @@
     return newArray;
 }
 
++ (void)performSearchWithKeyword:(NSString *)keyword andCompletion:(void (^)(NSArray *, NSError *))complete
+{
+    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"https://api.meetup.com/2/open_events.json?zip=60604&text=%@&time=,1w&key=1b4a6943b1b2d56681c436835c4073",keyword]];
+    NSURLRequest *request = [NSURLRequest requestWithURL:url];
+
+    [NSURLConnection sendAsynchronousRequest:request
+                                       queue:[NSOperationQueue mainQueue]
+                           completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
+
+
+                                   NSArray *jsonArray = [[NSJSONSerialization JSONObjectWithData:data
+                                                                                         options:NSJSONReadingAllowFragments
+                                                                                           error:nil] objectForKey:@"results"];
+
+
+
+
+                               NSArray *dataToReturnArray = [Event eventsFromArray:jsonArray];
+
+                               complete (dataToReturnArray, nil);
+
+                           }];
+
+}
+
 
 @end
+
+
