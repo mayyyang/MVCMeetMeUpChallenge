@@ -67,6 +67,36 @@
 
 }
 
+- (void)retrieveImageDataWithCompletion:(void (^)(NSData *, NSError *))complete
+{
+
+        NSURLRequest *imageReq = [NSURLRequest requestWithURL:self.photoURL];
+    
+        [NSURLConnection sendAsynchronousRequest:imageReq
+                                           queue:[NSOperationQueue mainQueue] completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError)
+    {
+            dispatch_async(dispatch_get_main_queue(), ^
+        {
+                if (!connectionError)
+                {
+                    complete (data, connectionError);
+                }
+
+                else
+                {
+                    complete (nil , connectionError);
+                }
+            });
+    
+    
+        }];
+    
+}
+
+
+
+
+
 
 @end
 

@@ -51,27 +51,40 @@
     
     cell.textLabel.text = e.name;
     cell.detailTextLabel.text = e.address;
-    if (e.photoURL)
-    {
-        NSURLRequest *imageReq = [NSURLRequest requestWithURL:e.photoURL];
-        
-        [NSURLConnection sendAsynchronousRequest:imageReq queue:[NSOperationQueue mainQueue] completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
-           dispatch_async(dispatch_get_main_queue(), ^{
-               if (!connectionError) {
-                   [cell.imageView setImage:[UIImage imageWithData:data]];
-                   [cell layoutSubviews];
-               }
-           });
 
+    [e retrieveImageDataWithCompletion:^(NSData *data, NSError *error) {
+        if (data)
+        {
+            [cell.imageView setImage:[UIImage imageWithData:data]];
+        }
+        else
+        {
+            [cell.imageView setImage:[UIImage imageNamed:@"logo"]];
+        }
+        [cell layoutSubviews]; //forces compiler to re-layout views
 
-        }];
-        
-        
-    }else
-    {
-       [cell.imageView setImage:[UIImage imageNamed:@"logo"]];
-    }
-    
+    }];
+//    if (e.photoURL)
+//    {
+//        NSURLRequest *imageReq = [NSURLRequest requestWithURL:e.photoURL];
+//        
+//        [NSURLConnection sendAsynchronousRequest:imageReq queue:[NSOperationQueue mainQueue] completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
+//           dispatch_async(dispatch_get_main_queue(), ^{
+//               if (!connectionError) {
+//                   [cell.imageView setImage:[UIImage imageWithData:data]];
+//                   [cell layoutSubviews];
+//               }
+//           });
+//
+//
+//        }];
+//        
+//        
+//    }else
+//    {
+//       [cell.imageView setImage:[UIImage imageNamed:@"logo"]];
+//    }
+
     return cell;
 }
 

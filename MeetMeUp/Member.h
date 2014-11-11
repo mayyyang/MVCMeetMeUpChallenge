@@ -23,6 +23,11 @@
 
 
 
+//[NSURLConnection sendAsynchronousRequest:[NSURLRequest requestWithURL:member.photoURL] queue:[NSOperationQueue mainQueue] completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
+//    self.photoImageView.image = [UIImage imageWithData:data];
+//
+//
+
 
 
 @end

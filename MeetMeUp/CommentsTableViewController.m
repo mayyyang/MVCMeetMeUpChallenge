@@ -24,24 +24,22 @@
 {
     [super viewDidLoad];
 
-    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"https://api.meetup.com/2/event_comments?&sign=true&photo-host=public&event_id=%@&page=20&key=1b4a6943b1b2d56681c436835c4073",self.event.eventID]];
-
-    NSURLRequest *request = [NSURLRequest requestWithURL:url];
-
-    [NSURLConnection sendAsynchronousRequest:request
-                                       queue:[NSOperationQueue mainQueue]
-                           completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
-
-                               NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:nil];
-
-                               NSArray *jsonArray = [dict objectForKey:@"results"];
-
-                               self.dataArray = [Comment objectsFromArray:jsonArray];
-                               [self.tableView reloadData];
-                           }];
+    [Comment retrieveEventWithString:self.event.eventID andCompletion:^(NSArray *commentObjectsArray, NSError *error)
+    {
+        self.dataArray = commentObjectsArray;
+    }];
 
     self.dateFormatter = [[NSDateFormatter alloc]init];
     [self.dateFormatter setDateStyle:NSDateFormatterShortStyle];
+}
+
+//overriding the setter property with "_"
+//when we set the array, must reload the tableview
+
+- (void)setDataArray:(NSArray *)dataArray
+{
+    _dataArray = dataArray;
+    [self.tableView reloadData];
 }
 
 
@@ -61,6 +59,7 @@
     cell.authorLabel.text = c.author;
     cell.commentLabel.text = c.text;
     cell.dateLabel.text = [self.dateFormatter stringFromDate:c.date];
+    
     return cell;
 }
 

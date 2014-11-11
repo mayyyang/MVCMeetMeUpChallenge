@@ -24,6 +24,7 @@
 + (NSArray *)eventsFromArray:(NSArray *)incomingArray;
 - (instancetype)initWithDictionary:(NSDictionary *)dictionary;
 + (void)performSearchWithKeyword:(NSString *)keyword andCompletion:(void(^)(NSArray *dataArray, NSError *error))complete;
+- (void)retrieveImageDataWithCompletion:(void(^)(NSData *data, NSError *error))complete;
 
 @end
 

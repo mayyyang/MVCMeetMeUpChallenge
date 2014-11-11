@@ -17,5 +17,6 @@
 
 + (NSArray *)objectsFromArray:(NSArray *)incomingArray;
 - (instancetype)initWithDictionary:(NSDictionary *)dictionary;
++ (void)retrieveEventWithString:(NSString *)eventID andCompletion:(void(^)(NSArray *commentObjectsArray, NSError *error))complete;
 
 @end
