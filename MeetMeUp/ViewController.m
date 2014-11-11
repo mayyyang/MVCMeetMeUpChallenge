@@ -31,7 +31,10 @@
 {
     [Event performSearchWithKeyword:keyword andCompletion:^(NSArray *dataArray, NSError *error) {
         self.dataArray = dataArray;
+        if (error)
+        {
         NSLog(@"%@", error.localizedDescription);
+        }
         [self.tableView reloadData];
     }];
 

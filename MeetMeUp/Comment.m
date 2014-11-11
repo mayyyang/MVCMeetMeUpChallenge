@@ -53,15 +53,27 @@
 
     [NSURLConnection sendAsynchronousRequest:request
                                        queue:[NSOperationQueue mainQueue]
-                           completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
+                           completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError)
+    {
+        NSError *JSONError = nil;
+        if (!connectionError)
+        {
+            NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:nil];
 
-                               NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:nil];
+            NSArray *jsonArray = [dict objectForKey:@"results"];
 
-                               NSArray *jsonArray = [dict objectForKey:@"results"];
+            if (!JSONError)
+            {
+                NSArray *dataArray = [Comment objectsFromArray:jsonArray];
 
-                               NSArray *dataArray = [Comment objectsFromArray:jsonArray];
+                complete (dataArray, connectionError);
+            }
+        else
+        {
+            complete (nil, connectionError);
+        }
+        }
 
-                               complete (dataArray, connectionError);
                            }];
 
     
