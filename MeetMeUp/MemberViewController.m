@@ -34,16 +34,15 @@
 {
     _member = member;
     self.nameLabel.text = member.name;
-    
-    [NSURLConnection sendAsynchronousRequest:[NSURLRequest requestWithURL:member.photoURL] queue:[NSOperationQueue mainQueue] completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
-        self.photoImageView.image = [UIImage imageWithData:data];
 
+    [member retrievePhotoDataWithCompletion:^(NSData *imageData, NSError *error) {
+        self.photoImageView.image = [UIImage imageWithData:imageData];
         [UIView animateWithDuration:.3 animations:^{
             self.photoImageView.alpha = 1;
         }];
 
     }];
-    
+
 }
 
 

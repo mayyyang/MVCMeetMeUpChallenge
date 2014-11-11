@@ -42,11 +42,17 @@
                            }];
 }
 
+- (void)retrievePhotoDataWithCompletion:(void (^)(NSData *, NSError *))complete
+{
+    [NSURLConnection sendAsynchronousRequest:[NSURLRequest requestWithURL:self.photoURL] queue:[NSOperationQueue mainQueue] completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError)
+    {
+        complete (data, nil);
+    }];
+    
+}
+
 @end
 
 
-//[NSURLConnection sendAsynchronousRequest:[NSURLRequest requestWithURL:member.photoURL] queue:[NSOperationQueue mainQueue] completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
-//    self.photoImageView.image = [UIImage imageWithData:data];
-//
-//
+
 

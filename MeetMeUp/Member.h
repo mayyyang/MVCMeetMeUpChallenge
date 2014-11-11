@@ -20,13 +20,9 @@
 
 - (instancetype)initWithDictionary:(NSDictionary *)dictionary;
 + (void)retrieveMemberWithCompletion:(NSString *)memberID andCompletion:(void(^)(Member* member, NSError *error))complete;
+- (void)retrievePhotoDataWithCompletion:(void(^)(NSData *imageData, NSError *error))complete;
 
 
-
-//[NSURLConnection sendAsynchronousRequest:[NSURLRequest requestWithURL:member.photoURL] queue:[NSOperationQueue mainQueue] completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
-//    self.photoImageView.image = [UIImage imageWithData:data];
-//
-//
 
 
 
