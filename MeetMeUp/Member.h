@@ -19,6 +19,12 @@
 
 
 - (instancetype)initWithDictionary:(NSDictionary *)dictionary;
++ (void)retrieveMemberWithCompletion:(NSString *)memberID andCompletion:(void(^)(Member* member, NSError *error))complete;
+
+
+
 
 
 @end
+
+
